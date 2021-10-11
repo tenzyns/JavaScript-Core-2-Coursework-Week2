@@ -20,7 +20,7 @@ function listOfColours(colours) {
     
     function changeColor(){
       let selectedValue = select.options[select.selectedIndex].value;
-      //the above line was tricky to discover
+      //the above construct is new to me
       para.style.color = selectedValue;
       console.log("hello I am working");
       para.innerText = `You have selected: ${selectedValue}`;
