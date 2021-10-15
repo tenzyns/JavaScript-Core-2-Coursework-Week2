@@ -42,7 +42,7 @@ const form = document.querySelector("form");
 const submit = document.querySelector("form button.btn-primary");
 submit.addEventListener("click", validateForm);
 
-//----call back function
+//----call back function for form validation submit event
 function validateForm(event){
     event.preventDefault(); 
     if (userName.value.length > 0 && userEmail.value.length > 0 && userText.value.length > 0 && userEmail.value.includes("@")){
@@ -55,9 +55,9 @@ function validateForm(event){
     } else { 
     if (userName.value.length < 1)
         userName.style.backgroundColor = "red";
-     if (userText.value.length < 1)
+    if (userText.value.length < 1)
         userText.style.backgroundColor = "red";
-     if (userEmail.value.length < 1 || !userEmail.value.includes("@"))
+    if (userEmail.value.length < 1 || !userEmail.value.includes("@"))
         userEmail.style.backgroundColor = "red"; 
     }
 }
