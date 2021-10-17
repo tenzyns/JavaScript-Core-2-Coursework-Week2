@@ -1,36 +1,44 @@
 function populateTodoList(todos) {
-  let list = document.getElementById("todo-list");
-  let liHtml = '';
-  todos.forEach(todo => {
+  let unorderedLi = document.getElementById("todo-list");
+  unorderedLi.innerHTML = "";
 
-    //"uid"is a call back function for creating random id for each list item created for click event use.
-    const uid = function(){
-      return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    }
-    const id = uid();
-    liHtml += `<li id = "${id}" class="list-group-item d-flex justify-content-between align-items-center"> ${todo.task} <span class="badge bg-primary rounded-pill"> <i class="fa fa-check" aria-hidden="true" onclick="markDone('${id}')"></i> <i class="fa fa-trash" aria-hidden="true" onclick="markDeleted('${id}')"></i></span></li>`;
-    
-    function markDone(id){
-      let listItem = document.getElementById(id);
-      if (listItem.innerText === todo.task && todo.completed === true){
-        listItem.style.textDecoration = "none";
-        todo.completed = false;
-      }else{
-        listItem.style.textDecoration = "line-through";
+  todos.forEach(todo =>{
+    let newLi = document.createElement("li");
+    newLi.innerHTML = todo.task;
+    newLi.setAttribute("class", "list-group-item d-flex justify-content-between align-items-center");
+    unorderedLi.appendChild(newLi);
+    let spanEl = document.createElement("span");
+    spanEl.setAttribute("class", "badge bg-primary rounded-pill");
+    newLi.appendChild(spanEl);
+
+    //icon for lineThrough button
+    let icon = document.createElement("i");
+    icon.setAttribute("class", "fa fa-check");
+    icon.setAttribute("aria-hidden", "true");
+    spanEl.appendChild(icon);
+
+    //icon for delete button
+    let icon2 = document.createElement("i"); 
+    icon2.setAttribute("class", "fa fa-trash");
+    icon2.setAttribute("aria-hidden", "true");
+    spanEl.appendChild(icon2);
+
+    //EventListeners for lineThrough
+    icon.addEventListener("click", ()=> {
+      if (todo.completed == false){
+        newLi.style.textDecoration = "line-through";
         todo.completed = true;
+      } else {
+        newLi.style.textDecoration = "none";
+        todo.completed = false;
       }
-    }
+    });
+    //EventListener to delete
+    icon2.addEventListener("click", ()=> {
+      unorderedLi.removeChild(newLi)
+    });
+  })
 
-    function markDeleted(id){
-      let listItem = document.getElementById(id);
-      if 
-
-    }
-//clickEvent function 
-
-  });
-  list.innerHTML = liHtml;
- 
   // Write your code to create todo list elements with completed and delete buttons here, all todos should display inside the "todo-list" element.
 }
 
@@ -47,15 +55,33 @@ populateTodoList(todos);
 function addNewTodo(event) {
   // The code below prevents the page from refreshing when we click the 'Add Todo' button.
   event.preventDefault();
+  let inputBox = document.querySelector("#todoInput");
+  let newItem = {
+    task: inputBox.value,
+    completed: false
+  }
+  todos.push(newItem);
+  populateTodoList(todos);
+  inputBox.value = "";
   // Write your code here... and remember to reset the input field to be blank after creating a todo!
-  let inputBox = document.getElementById("todoInput");
-  alert(inputBox.value);
-  const newTodo = {task: inputBox.value, completed: false};
-  todos.push(newTodo);
-  console.log(`we now have ${todos.length} todo items`);
+ 
 }
-
 // Advanced challenge: Write a fucntion that checks the todos in the todo list and deletes the completed ones (we can check which ones are completed by seeing if they have the line-through styling applied or not).
+
+const content = document.getElementById("content")
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = "Delete completed tasks";
+  deleteBtn.style.backgroundColor = "#ee9b00";
+  deleteBtn.style.margin = "50px" ;
+  content.appendChild(deleteBtn);
+  deleteBtn.addEventListener("click", deleteAllCompletedTodos);
+
 function deleteAllCompletedTodos() {
   // Write your code here...
+  let allList = document.querySelectorAll("ul li");
+  allList.forEach(liEl => {
+    if (liEl.style.textDecoration === "line-through"){
+      liEl.remove();
+    }
+  })
 }
